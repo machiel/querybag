@@ -7,6 +7,9 @@
 Querybag is a library that loads all SQL files from a specific directory, and it
 allows you to access them by using their file name, as in the example below.
 
+This way you don't have extremely long strings of SQL statements in your code,
+but you can have them in nice, separate, SQL files instead.
+
 # License
 Querybag is licensed under a MIT license.
 
