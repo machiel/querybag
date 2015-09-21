@@ -29,10 +29,10 @@ WHERE id = ?
 package main
 
 import (
-	"fmt"
+  "fmt"
   "database/sql"
 
-	"github.com/Machiel/querybag"
+  "github.com/Machiel/querybag"
 )
 
 var db *sql.DB
