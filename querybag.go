@@ -49,14 +49,7 @@ func New(path string) (*Bag, error) {
 }
 
 func isSQL(name string) bool {
-
-	length := len(name)
-
-	if length < 4 {
-		return false
-	}
-
-	return name[length-4:] == ".sql"
+	return filepath.Ext(name) == ".sql"
 }
 
 func sanitizeName(name string) string {
