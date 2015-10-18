@@ -1,6 +1,8 @@
 package querybag
 
 import (
+	"io/ioutil"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -30,6 +32,41 @@ WHERE active = 1
 	if !reflect.DeepEqual(m, expected) {
 		t.Error("The generated map didn't match the expected result.")
 	}
+
+	m, err = New("bogus-dir")
+	if err == nil {
+		t.Error("Expected unexistent directory to have failed")
+	}
+
+	dir, _ := ioutil.TempDir("", "querybag")
+	defer os.RemoveAll(dir)
+	ioutil.WriteFile(dir+"/test.sql", nil, 0)
+
+	m, err = New(dir)
+	if err == nil {
+		t.Error("Expected unreadable file to have failed")
+	}
+}
+
+func TestBag_Get(t *testing.T) {
+	m, _ := New("queries")
+	expected := `SELECT *
+FROM comments
+WHERE post_id = ?
+`
+	result := m.Get("retrieve_comments")
+
+	if expected != result {
+		t.Errorf("Expected query to be equal to: %q\ngot: %q", expected, result)
+	}
+
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("Expected getting missing key to panic, it did not")
+		}
+	}()
+
+	m.Get("bogus_query")
 }
 
 func TestIsSQL(t *testing.T) {
