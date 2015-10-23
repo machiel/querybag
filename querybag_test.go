@@ -35,7 +35,7 @@ WHERE active = 1
 
 	m, err = New("bogus-dir")
 	if err == nil {
-		t.Error("Expected unexistent directory to have failed")
+		t.Error("Expected nonexistent directory to have failed")
 	}
 
 	dir, _ := ioutil.TempDir("", "querybag")
@@ -48,7 +48,7 @@ WHERE active = 1
 	}
 }
 
-func TestBag_Get(t *testing.T) {
+func TestBagGet(t *testing.T) {
 	m, _ := New("queries")
 	expected := `SELECT *
 FROM comments
